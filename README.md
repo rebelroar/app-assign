@@ -6,9 +6,10 @@
 ### Running Locally
 1. Clone the repository:
    ```git clone https://github.com/yourusername/MyApp.git```
+   
    ```cd MyApp```
 
-2. Build Images
+3. Build Images
 - docker build -t rebelroar/go-app ./go-app
 - docker build -t rebelroar/nextjs-app ./nextJS-app
 - docker build -t rebelroar/wordpress-app ./wordpress-app
