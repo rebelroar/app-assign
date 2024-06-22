@@ -5,7 +5,7 @@
 
 ### Running Locally
 1. Clone the repository:
-- git clone https://github.com/yourusername/MyApp.git
+   '''git clone https://github.com/yourusername/MyApp.git'''
 - cd MyApp
 
 2. Build Images
