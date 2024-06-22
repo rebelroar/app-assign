@@ -6,7 +6,7 @@
 ### Running Locally
 1. Clone the repository:
    
-   ```git clone https://github.com/yourusername/MyApp.git```
+   ```https://github.com/rebelroar/app-assign.git```
    
    ```cd MyApp```
 
