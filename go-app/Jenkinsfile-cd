@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    environment {
+        GCP_PROJECT = 'rebel-project'
+        GCP_SERVICE_ACCOUNT_KEY = credentials('../service-account-key')
+        DOCKER_IMAGE = 'gcr.io/${GCP_PROJECT}/my-go-app'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}:latest")
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://gcr.io', 'GCP_SERVICE_ACCOUNT_KEY') {
+                        docker.image("${DOCKER_IMAGE}:latest").push()
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Cloud Run') {
+            steps {
+                sh '''
+                    echo $GCP_SERVICE_ACCOUNT_KEY | gcloud auth activate-service-account --key-file=-
+                    gcloud config set project $GCP_PROJECT
+                    gcloud run deploy my-go-app --image ${DOCKER_IMAGE}:latest --platform managed --region us-central1
+                '''
+            }
+        }
+    }
+}
